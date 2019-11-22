@@ -1,0 +1,175 @@
+﻿@using AdventureWorks.EF.Views
+@model List<AdventureWorks.EF.Views.vEmployeeDepartment>
+@{
+    ViewBag.Title = "Employee Directory";
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        <span class="font-weight-bolder flex-fill">Employee Directory</span>
+    </div>
+    <div class="col-sm-3">
+        <form class="form-inline" action="/home/EmployeeSearch">
+            <input type="search" class="form-control mr-sm-2" style="width:150px" placeholder="Search" name="stringSearch" id="stringSearch" value="@ViewBag.SearchString">
+
+            @{
+                var btnclass = "fa fa-search";
+                if (ViewBag.SearchString != "")
+                {
+                    btnclass = "fa fa-refresh";
+                }
+
+                <button type="submit" class="btn btn-success" id="btnSeach"><i class="@btnclass"></i></button>
+            }
+        </form>
+    </div>
+    <div class="col-sm-3">
+        <ul class="pagination border-0">
+            <li class="page-item">
+                <a href="/Home/EDirectory?sortcolumn=firstname&ascSort=@((ViewBag.AscSort).ToString())&currPage=1" class="page-link">First</a>
+            </li>
+            <li class="page-item">
+                <a href="/Home/EDirectory?sortcolumn=firstname&ascSort=@((ViewBag.AscSort).ToString())&currPage=@ViewBag.NextPage" class="page-link" data-toggle="tooltip" title="Go to Page @ViewBag.NextPage">
+                    <span class="fa fa-angle-double-right"></span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a href="/Home/EDirectory?sortcolumn=firstname&ascSort=@((ViewBag.AscSort).ToString())&currPage=@ViewBag.PrevPage" class="page-link" data-toggle="tooltip" title="Go to Page @ViewBag.PrevPage">
+                    <span class="fa fa-angle-double-left"></span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a href="/Home/EDirectory?sortcolumn=firstname&ascSort=@((ViewBag.AscSort).ToString())&currPage=@ViewBag.NoOfPages" class="page-link" data-toggle="tooltip" title="Go to Page @ViewBag.NoOfPages">Last</a>
+            </li>
+        </ul>
+        @*@for (int i = 2; i <= ViewBag.NoOfPages - 1; i++)
+            {
+                <a href="/Home/EDirectory?sortcolumn=firstname&ascSort=@((ViewBag.AscSort).ToString())&currPage=@i">@i</a>
+            }*@
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        @{
+            string IconClass = (ViewBag.AscSort == true) ? "fa-sort-asc" : "fa-sort-desc";
+        }
+        <table class="table-bordered table-info" style="width:100%" id="EmployeeList">
+            <thead>
+                <tr class="font-weight-bolder">
+                    <td style="width:20%">
+                        <a href="/Home/EDirectory?sortcolumn=firstname&ascSort=@((!ViewBag.AscSort).ToString())">
+                            First Name
+                            @if (ViewBag.SortColumn == "firstname")
+                            {
+                                <i class="fa @IconClass"></i>
+                            }
+                        </a>
+                    </td>
+                    <td style="width:20%">
+                        <a href="/Home/EDirectory?sortcolumn=lastname&ascSort=@((!ViewBag.AscSort).ToString())">
+                            Last Name
+                            @if (ViewBag.SortColumn == "lastname")
+                            {
+                                <i class="fa @IconClass"></i>
+                            }
+                        </a>
+                    </td>
+                    @*<td>
+                        Job Title
+                    </td>*@
+                    <td style="width:30%">
+                        <a href="/Home/EDirectory?sortcolumn=department&ascSort=@((!ViewBag.AscSort).ToString())">
+                            Department
+                            @if (ViewBag.SortColumn == "department")
+                            {
+                                <i class="fa @IconClass"></i>
+                            }
+                        </a>
+                    </td>
+                    <td style="width:30%">
+                        <a href="/Home/EDirectory?sortcolumn=groupname&ascSort=@((!ViewBag.AscSort).ToString())">
+                            Group
+                            @if (ViewBag.SortColumn == "groupname")
+                            {
+                                <i class="fa @IconClass"></i>
+                            }
+                        </a>
+                    </td>
+                    @*<td>
+                        Details
+                    </td>*@
+                </tr>
+            </thead>
+
+            @foreach (vEmployeeDepartment emp in Model)
+            {
+                <tr id="@emp.BusinessEntityID.ToString()">
+                    <td>
+                        <button id="btnEmpName" class="ViewDetails btn btn-link"
+                                value="@emp.BusinessEntityID.ToString()" 
+                                data-target="#empmodalbody">
+                            @emp.FirstName.ToString()
+                        </button>
+                    </td>
+                    <td>
+                        <button id="btnEmpName" class="ViewDetails btn btn-link"
+                                value="@emp.BusinessEntityID.ToString()"
+                                data-target="#empmodalbody">
+                            @emp.LastName.ToString()
+                        </button>
+                    </td>
+                    @*<td>
+                        @emp.JobTitle.ToString()
+                    </td>*@
+                    <td>
+                        @emp.Department.ToString()
+                    </td>
+                    <td>
+                        @emp.GroupName.ToString()
+                    </td>
+                    @*<td>
+                        <input type="text" id="employeeID_@emp.BusinessEntityID.ToString()" name="employeeID" value="@emp.BusinessEntityID.ToString()" />
+                    </td>*@
+                    @*<td>
+                        *<button type="button" class="ViewDetails" data-toggle="modal" data-target="#myModal" value="@emp.BusinessEntityID.ToString()"
+                        id="btnViewEmpDetails">
+
+                        View
+                        </button>*
+                        <button type="button" class="ViewDetails" value="@emp.BusinessEntityID.ToString()"
+                                data-target="#dialog"
+                                id="btnViewEmpDetails">
+                            View
+                        </button>*
+                    </td>*@
+                </tr>
+            }
+        </table>
+    </div>
+    @*<div class="col-sm-4 p-0" id="DetailDiv">
+        <div id="dialog" class="row" >
+
+        </div>
+        <div id="dialog_1" class="row mt-2">
+
+        </div>
+    </div>*@
+    <div class="modal" id="empmodal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" id="btnclosedetail">
+                    <i class="fa fa-close"></i>
+                </button>
+            </div>
+            <div class="modal-body mt-3" id="empmodalbody">
+
+            </div>
+            <div class="modal-body" id="empmodalbody2">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

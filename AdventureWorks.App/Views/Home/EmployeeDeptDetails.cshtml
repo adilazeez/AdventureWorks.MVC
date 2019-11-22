@@ -1,0 +1,26 @@
+﻿@model AdventureWorks.EF.Views.vEmployeeDepartment
+<table class="table-info table-bordered w-100 p-0">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>@Model.Title @Model.FirstName @Model.MiddleName @Model.LastName</td>
+        </tr>
+        <tr>
+            <td>Job Title</td>
+            <td>@Model.JobTitle</td>
+        </tr>
+        <tr>
+            <td>Department</td>
+            <td>@Model.Department</td>
+        </tr>
+        <tr>
+            <td>Group</td>
+            <td>@Model.GroupName</td>
+        </tr>
+        <tr>
+            <td>Join Date/Time</td>
+            <td>@Model.StartDate.ToString()</td>
+        </tr>
+    </thead>
+</table>
+

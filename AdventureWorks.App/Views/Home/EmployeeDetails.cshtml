@@ -1,0 +1,43 @@
+﻿@model AdventureWorks.EF.Views.vEmployee
+<table class="table-info table-bordered w-100 p-0">
+    <thead>
+        @*<tr>
+            <td>Name</td>
+            <td>@Model.Title @Model.FirstName @Model.MiddleName @Model.LastName</td>
+        </tr>*@
+        <tr>
+            @{
+                int addressrows = (Model.AddressLine2.IsEmpty()) ? 4 : 5;
+                <td rowspan="@addressrows" class="w-">Address</td>
+            }
+            <td>@Model.AddressLine1</td>
+        </tr>
+        @if (!Model.AddressLine2.IsEmpty())
+        {
+            <tr>
+                <td>@Model.AddressLine2</td>
+            </tr>
+        }
+        <tr>
+            <td>@Model.City</td>
+        </tr>
+        <tr>
+            <td>@Model.StateProvinceName</td>
+        </tr>
+        <tr>
+            <td>@Model.CountryRegionName</td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td>@Model.PhoneNumber</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>@Model.EmailAddress</td>
+        </tr>
+        <tr>
+            <td>Addl. Contact Info</td>
+            <td>@Model.AdditionalContactInfo</td>
+        </tr>
+    </thead>
+</table>
